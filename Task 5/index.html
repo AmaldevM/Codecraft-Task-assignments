@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+        }
+
+        .container {
+            width: 360px;
+            padding: 25px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        h2 {
+            margin-bottom: 10px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 6px;
+            outline: none;
+        }
+
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            background: #00c853;
+            color: white;
+            font-weight: bold;
+            margin: 5px 5px;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #00a844;
+        }
+
+        .weather-info {
+            margin-top: 15px;
+            text-align: left;
+        }
+
+        .loading {
+            margin-top: 10px;
+            font-style: italic;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h2>Weather App 🌤</h2>
+
+        <input type="text" id="cityInput" placeholder="Enter city name">
+        <button onclick="getWeatherByCity()">Search</button>
+        <button onclick="getLocationWeather()">Use My Location</button>
+
+        <div class="loading" id="loading"></div>
+        <div class="weather-info" id="weatherInfo"></div>
+    </div>
+
+    <script>
+
+        const apiKey = "8069e35caa74c1f77f6cae47650b37fe"; 
+
+        async function getWeatherByCity() {
+            const city = document.getElementById("cityInput").value.trim();
+            if (!city) return;
+
+            const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+            fetchWeather(url);
+        }
+
+        function getLocationWeather() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(position => {
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+
+                    const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
+                    fetchWeather(url);
+                }, () => {
+                    showError("Location access denied.");
+                });
+            } else {
+                showError("Geolocation not supported.");
+            }
+        }
+
+        async function fetchWeather(url) {
+            const weatherDiv = document.getElementById("weatherInfo");
+            const loadingDiv = document.getElementById("loading");
+
+            weatherDiv.innerHTML = "";
+            loadingDiv.innerText = "Loading...";
+
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+
+                loadingDiv.innerText = "";
+
+                if (!response.ok) {
+                    showError(data.message || "City not found.");
+                    return;
+                }
+
+                weatherDiv.innerHTML = `
+            <h3>${data.name}, ${data.sys.country}</h3>
+            <p><strong>Temperature:</strong> ${data.main.temp}°C</p>
+            <p><strong>Feels Like:</strong> ${data.main.feels_like}°C</p>
+            <p><strong>Condition:</strong> ${data.weather[0].description}</p>
+            <p><strong>Humidity:</strong> ${data.main.humidity}%</p>
+            <p><strong>Wind Speed:</strong> ${data.wind.speed} m/s</p>
+        `;
+
+            } catch (error) {
+                loadingDiv.innerText = "";
+                showError("Something went wrong. Check API key.");
+                console.error(error);
+            }
+        }
+
+        function showError(message) {
+            document.getElementById("weatherInfo").innerHTML =
+                `<p style="color:#ff5252;">${message}</p>`;
+        }
+
+    </script>
+
+</body>
+
+</html>

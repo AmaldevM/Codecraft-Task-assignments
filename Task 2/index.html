@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Stopwatch</title>
+
+    <style>
+        :root {
+            --bg-dark: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            --bg-light: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            --card-dark: rgba(255, 255, 255, 0.08);
+            --card-light: rgba(255, 255, 255, 0.6);
+            --text-dark: white;
+            --text-light: #111;
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', sans-serif;
+            background: var(--bg-dark);
+            transition: 0.5s;
+        }
+
+        .container {
+            width: 380px;
+            padding: 30px;
+            border-radius: 20px;
+            backdrop-filter: blur(15px);
+            background: var(--card-dark);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+            color: var(--text-dark);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: 0.5s;
+        }
+
+        h2 {
+            margin-bottom: 10px;
+        }
+
+        .time {
+            font-size: 36px;
+            margin: 20px 0;
+            letter-spacing: 2px;
+        }
+
+        .buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .start {
+            background: #00c853;
+            color: white;
+        }
+
+        .pause {
+            background: #ffab00;
+            color: white;
+        }
+
+        .reset {
+            background: #d50000;
+            color: white;
+        }
+
+        .lap {
+            background: #2979ff;
+            color: white;
+        }
+
+        .toggle {
+            background: #444;
+            color: white;
+        }
+
+        .laps {
+            max-height: 150px;
+            overflow-y: auto;
+            font-size: 14px;
+            text-align: left;
+        }
+
+        .laps div {
+            padding: 5px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Light Mode */
+        body.light {
+            background: var(--bg-light);
+        }
+
+        body.light .container {
+            background: var(--card-light);
+            color: var(--text-light);
+        }
+
+        body.light .toggle {
+            background: #222;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h2>Premium Stopwatch</h2>
+        <div class="time" id="display">00:00:00:000</div>
+
+        <div class="buttons">
+            <button class="start" onclick="start()">Start</button>
+            <button class="pause" onclick="pause()">Pause</button>
+            <button class="reset" onclick="reset()">Reset</button>
+            <button class="lap" onclick="lap()">Lap</button>
+            <button class="toggle" onclick="toggleTheme()">Toggle</button>
+        </div>
+
+        <div class="laps" id="laps"></div>
+    </div>
+
+    <!-- Sound Effects -->
+    <audio id="clickSound" src="https://www.soundjay.com/buttons/sounds/button-3.mp3"></audio>
+
+    <script>
+
+        let ms = 0;
+        let seconds = 0;
+        let minutes = 0;
+        let hours = 0;
+        let interval = null;
+
+        const display = document.getElementById("display");
+        const clickSound = document.getElementById("clickSound");
+
+        function updateDisplay() {
+            let h = hours.toString().padStart(2, '0');
+            let m = minutes.toString().padStart(2, '0');
+            let s = seconds.toString().padStart(2, '0');
+            let milli = ms.toString().padStart(3, '0');
+
+            display.innerText = `${h}:${m}:${s}:${milli}`;
+        }
+
+        function start() {
+            playSound();
+            if (interval) return;
+
+            interval = setInterval(() => {
+                ms += 10;
+
+                if (ms >= 1000) {
+                    ms = 0;
+                    seconds++;
+                }
+                if (seconds >= 60) {
+                    seconds = 0;
+                    minutes++;
+                }
+                if (minutes >= 60) {
+                    minutes = 0;
+                    hours++;
+                }
+
+                updateDisplay();
+            }, 10);
+        }
+
+        function pause() {
+            playSound();
+            clearInterval(interval);
+            interval = null;
+        }
+
+        function reset() {
+            playSound();
+            pause();
+            ms = seconds = minutes = hours = 0;
+            updateDisplay();
+            document.getElementById("laps").innerHTML = "";
+        }
+
+        function lap() {
+            playSound();
+            if (!interval) return;
+            const lapTime = display.innerText;
+            const lapDiv = document.createElement("div");
+            lapDiv.innerText = "Lap: " + lapTime;
+            document.getElementById("laps").prepend(lapDiv);
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle("light");
+        }
+
+        function playSound() {
+            clickSound.currentTime = 0;
+            clickSound.play();
+        }
+
+        updateDisplay();
+
+    </script>
+
+</body>
+
+</html>

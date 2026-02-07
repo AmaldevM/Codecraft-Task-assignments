@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amaldev | Full Stack Developer</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: #0f0f0f;
+            color: #fff;
+        }
+
+        /* NAVBAR */
+        nav {
+            position: fixed;
+            width: 100%;
+            padding: 20px 60px;
+            display: flex;
+            justify-content: space-between;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #fff;
+            margin-left: 25px;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            color: #d4af37;
+        }
+
+        /* HERO */
+        .hero {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .hero img {
+            width: 260px;
+            height: 260px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+            border: 3px solid #d4af37;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+        }
+
+        .hero span {
+            color: #d4af37;
+        }
+
+        .hero p {
+            max-width: 600px;
+            margin-top: 15px;
+            opacity: 0.8;
+        }
+
+        .btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #d4af37;
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* SECTIONS */
+        section {
+            padding: 80px 60px;
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 30px;
+            color: #d4af37;
+        }
+
+        /* SKILLS */
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .skill {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 15px 25px;
+            border-radius: 10px;
+        }
+
+        /* PROJECTS */
+        .projects {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 25px;
+        }
+
+        .project {
+            width: 280px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            transition: 0.3s;
+        }
+
+        .project:hover {
+            transform: translateY(-8px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        /* ABOUT */
+        .about {
+            max-width: 800px;
+            margin: auto;
+            line-height: 1.8;
+            opacity: 0.85;
+        }
+
+        /* FOOTER */
+        footer {
+            padding: 20px;
+            text-align: center;
+            background: #111;
+            opacity: 0.7;
+        }
+
+        /* RESPONSIVE */
+        @media(max-width:768px) {
+            nav {
+                padding: 15px 20px;
+            }
+
+            section {
+                padding: 60px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <div><strong>AMALDEV</strong></div>
+        <div>
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#skills">Skills</a>
+            <a href="#projects">Projects</a>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero" id="home">
+        <img src="./profile.png" alt="Profile">
+        <h1>Hello, I'm <span>Amaldev</span></h1>
+        <p>Full Stack Developer specializing in Angular, React, Spring Boot, Node.js & MySQL. I build scalable, modern
+            web applications with clean UI and robust backend architecture.</p>
+        <button class="btn">View My Work</button>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about">
+        <h2>About Me</h2>
+        <div class="about">
+            I am a BCA graduate passionate about building full-stack web applications.
+            I have completed internships in MERN stack development and worked on real-world
+            projects including food ordering platforms and management systems.
+            <br><br>
+            Currently, I specialize in Angular + Spring Boot + MySQL architecture.
+            My goal is to become a highly skilled Full Stack Developer capable of
+            delivering production-ready enterprise applications.
+        </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills">
+        <h2>Skills</h2>
+        <div class="skills">
+            <div class="skill">HTML & CSS</div>
+            <div class="skill">JavaScript</div>
+            <div class="skill">Angular</div>
+            <div class="skill">React</div>
+            <div class="skill">Spring Boot</div>
+            <div class="skill">Node.js</div>
+            <div class="skill">MySQL</div>
+            <div class="skill">MongoDB</div>
+        </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects">
+        <h2>Projects</h2>
+        <div class="projects">
+            <div class="project">
+                <h3>FlaveMe</h3>
+                <p>Food ordering web application built using MERN stack with authentication and payment integration.</p>
+            </div>
+            <div class="project">
+                <h3>Book Management</h3>
+                <p>Angular + Spring Boot CRUD application with MySQL integration and role-based access.</p>
+            </div>
+            <div class="project">
+                <h3>Amazon Clone</h3>
+                <p>Full-stack e-commerce application with login, cart, and admin management system.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        © 2026 Amaldev | Full Stack Developer
+    </footer>
+
+</body>
+
+</html>
